@@ -1,0 +1,210 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>My Webpage</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 20px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            min-height: 100vh;
+        }
+        .image-container {
+            display: flex;
+            justify-content: center;
+            gap: 10px;
+            margin-bottom: 20px;
+        }
+        .image-container img {
+            max-width: 45%;
+            height: auto;
+        }
+        .row {
+            width: 100%;
+            max-width: 600px;
+            margin-bottom: 20px;
+            text-align: center;
+        }
+        select, .result-box, .box-4a, .box-4b {
+            width: 100%;
+            padding: 10px;
+            box-sizing: border-box;
+        }
+        .result-box {
+            border: 1px solid #ccc;
+            min-height: 50px;
+        }
+        .row-4 {
+            display: flex;
+            gap: 10px;
+        }
+        .box-4a {
+            width: 30%;
+            border: 1px solid #ccc;
+        }
+        .box-4b {
+            width: 70%;
+            border: 1px solid #ccc;
+        }
+        @media (max-width: 480px) {
+            .image-container img {
+                max-width: 40%;
+            }
+            .row-4 {
+                flex-direction: column;
+            }
+            .box-4a, .box-4b {
+                width: 100%;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="image-container">
+        <img src="images/IRS.jpg" alt="Image 1">
+        <img src="images/IPCI.jpg" alt="Image 2">
+    </div>
+
+    <div class="row">
+        <select id="dropdown1">
+            <option value="">Select an option</option>
+        </select>
+    </div>
+
+    <div class="row">
+        <select id="dropdown2">
+            <option value="">Select an option</option>
+        </select>
+    </div>
+
+    <div class="row">
+        <div class="result-box" id="resultBox"></div>
+    </div>
+
+    <div class="row row-4">
+        <div class="box-4a" id="box4a"></div>
+        <div class="box-4b" id="box4b"></div>
+    </div>
+
+    <script src="https://apis.google.com/js/api.js"></script>
+    <script>
+        const CLIENT_ID = '664374659896-m0a5r65ev0kfldmaberdmb7nf6llucae.apps.googleusercontent.com'; // Replace with your Google Client ID
+        const API_KEY = 'YAIzaSyAOeuLYMYBkFeGyzI_mJQo1tFAjTf8UL9w';   // Replace with your Google API Key
+        const SPREADSHEET_ID = '1Uk0Od2M5zJU5oywHDY5vxAdsQslKEoOo5xyhROQnAK8';
+
+        // Load Google API client
+        function loadGapi() {
+            gapi.load('client:auth2', initClient);
+        }
+
+        function initClient() {
+            gapi.client.init({
+                apiKey: API_KEY,
+                clientId: CLIENT_ID,
+                discoveryDocs: ['https://sheets.googleapis.com/$discovery/rest?version=v4'],
+                scope: 'https://www.googleapis.com/auth/spreadsheets.readonly'
+            }).then(() => {
+                loadDropdown1();
+            });
+        }
+
+        // Load first dropdown from Analysis2!B7:B
+        function loadDropdown1() {
+            gapi.client.sheets.spreadsheets.values.get({
+                spreadsheetId: SPREADSHEET_ID,
+                range: 'Analysis2!B7:B'
+            }).then(response => {
+                const values = response.result.values || [];
+                const dropdown1 = document.getElementById('dropdown1');
+                values.forEach(value => {
+                    const option = document.createElement('option');
+                    option.value = value[0];
+                    option.text = value[0];
+                    dropdown1.appendChild(option);
+                });
+                dropdown1.addEventListener('change', loadDropdown2);
+            });
+        }
+
+        // Load second dropdown based on Flow and Flow 1
+        function loadDropdown2() {
+            const selected1 = document.getElementById('dropdown1').value;
+            const dropdown2 = document.getElementById('dropdown2');
+            dropdown2.innerHTML = '<option value="">Select an option</option>';
+
+            ['Flow', 'Flow 1'].forEach(sheet => {
+                gapi.client.sheets.spreadsheets.values.get({
+                    spreadsheetId: SPREADSHEET_ID,
+                    range: `${sheet}!A:L`
+                }).then(response => {
+                    const values = response.result.values || [];
+                    const filtered = values.filter(row => 
+                        row[11] === 'Closed' && row[6] === selected1
+                    ).map(row => row[3]); // D:D is index 3, L:L is 11, G:G is 6
+
+                    if (filtered.length > 0) {
+                        filtered.forEach(value => {
+                            const option = document.createElement('option');
+                            option.value = value;
+                            option.text = value;
+                            dropdown2.appendChild(option);
+                        });
+                    } else {
+                        const option = document.createElement('option');
+                        option.value = 'N/A';
+                        option.text = 'N/A';
+                        dropdown2.appendChild(option);
+                    }
+                });
+            });
+
+            dropdown2.addEventListener('change', updateResults);
+        }
+
+        // Update results in 3rd and 4th rows
+        function updateResults() {
+            const selected2 = document.getElementById('dropdown2').value;
+            const resultBox = document.getElementById('resultBox');
+            const box4a = document.getElementById('box4a');
+            const box4b = document.getElementById('box4b');
+
+            // 3rd row: Filter Data!X:X where C:C matches selected2
+            gapi.client.sheets.spreadsheets.values.get({
+                spreadsheetId: SPREADSHEET_ID,
+                range: 'Data!A:X'
+            }).then(response => {
+                const values = response.result.values || [];
+                const filtered = values.find(row => row[2] === selected2); // C:C is index 2
+                resultBox.textContent = filtered ? filtered[23] : 'N/A'; // X:X is index 23
+
+                // 4th row, left box: Percentage from Analysis2!B:C
+                gapi.client.sheets.spreadsheets.values.get({
+                    spreadsheetId: SPREADSHEET_ID,
+                    range: 'Analysis2!B:C'
+                }).then(response => {
+                    const values = response.result.values || [];
+                    const match = values.find(row => row[0] === selected2);
+                    const percentage = match ? parseFloat(match[1]).toFixed(2) : 'N/A';
+                    box4a.textContent = percentage !== 'N/A' ? `${percentage}%` : 'N/A';
+
+                    // 4th row, right box: Text based on percentage
+                    if (percentage === '0.00') {
+                        box4b.textContent = '-- Won';
+                    } else if (percentage !== 'N/A') {
+                        box4b.textContent = 'higher than the lowest bid';
+                    } else {
+                        box4b.textContent = 'N/A';
+                    }
+                });
+            });
+        }
+
+        loadGapi();
+    </script>
+</body>
+</html>
