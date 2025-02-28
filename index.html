@@ -5,6 +5,12 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Bidder and PO Number Selector</title>
     <style>
+        /* Set Calibri as the font for all elements */
+        body {
+            font-family: 'Calibri', sans-serif;
+        }
+
+        /* Styling for the images section */
         .images {
             display: flex;
             flex-wrap: wrap;
@@ -21,6 +27,17 @@
                 width: 45%;
             }
         }
+
+        /* Title styling */
+        .title {
+            text-align: center;
+            margin: 2em 0; /* Adds space above and below the title */
+        }
+        .title h1 {
+            font-size: 2.5em; /* Larger font size, adjustable via relative units */
+        }
+
+        /* Form (dropdowns) styling */
         .form {
             display: flex;
             justify-content: space-between;
@@ -41,12 +58,16 @@
                 width: 50%;
             }
         }
+
+        /* Shipment detail styling */
         .shipmentDetail {
             text-align: center;
             border: 1px solid #ccc;
             padding: 10px;
             margin: 20px 0;
         }
+
+        /* Result section styling */
         .result {
             display: flex;
             justify-content: space-between;
@@ -71,13 +92,28 @@
                 margin-bottom: 10px;
             }
         }
+
+        /* Note section styling */
+        .note {
+            text-align: left;
+            font-size: 0.8em; /* Smaller font size */
+            margin-top: 2em; /* Adds space equivalent to approximately 3 lines above the note */
+        }
     </style>
 </head>
 <body>
+    <!-- Top images -->
     <div class="images">
         <img src="IRS.png" class="image" onload="resizeImage(this)">
         <img src="IPCI.png" class="image" onload="resizeImage(this)">
     </div>
+
+    <!-- Title section -->
+    <div class="title">
+        <h1>Bidder's Self-evaluation Tool</h1>
+    </div>
+
+    <!-- Dropdowns section -->
     <div class="form">
         <select id="bidder-id">
             <option value="">Select Bidder ID</option>
@@ -86,9 +122,13 @@
             <option value="">Select PO Number</option>
         </select>
     </div>
+
+    <!-- Shipment detail section -->
     <div class="shipmentDetail">
         <p id="shipmentDetailText">Shipment Detail: N/A</p>
     </div>
+
+    <!-- Result section -->
     <div class="result">
         <div class="percentage">
             <p id="percentageText">Percentage: N/A</p>
@@ -97,6 +137,17 @@
             <p id="commentText">Comment: N/A</p>
         </div>
     </div>
+
+    <!-- Note section -->
+    <div class="note">
+        <p>Notes:<br>
+        This is an experimental tool which made for the e-bidding platform run by PT IRS and PT IPCI in Indonesia. Use it at your own risk. This tool might be able to support the bidder to analyze how much amount percentage between bidder's final bid against the amount of winning bid, as long the bidder bid the job/shipment.<br>
+        For any enquiry or feedback, it could be sent to julius.timotius@indorama.com and/or via WhatsApp +6287808661776.<br>
+        All rights reserved.<br>
+        © March 2025</p>
+    </div>
+
+    <!-- External scripts -->
     <script src="https://apis.google.com/js/client.js?onload=googleClientLoaded"></script>
     <script src="script.js"></script>
 </body>
