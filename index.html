@@ -1,116 +1,103 @@
-let bidderIds = [];
-let combinedData = [];
-let dataC = [];
-let dataX = [];
-
-function googleClientLoaded() {
-    gapi.load('client', function() {
-        gapi.client.init({
-            apiKey: 'YAIzaSyAOeuLYMYBkFeGyzI_mJQo1tFAjTf8UL9w',
-            clientId: '664374659896-m0a5r65ev0kfldmaberdmb7nf6llucae.apps.googleusercontent.com',
-            discoveryDocs: ['https://sheets.googleapis.com/$discovery/rest?version=v4'],
-            scope: 'https://www.googleapis.com/auth/spreadsheets.readonly'
-        }).then(function() {
-            gapi.auth2.getAuthInstance().signIn().then(function() {
-                fetchData();
-            }, function(error) {
-                console.error('Sign-in error:', error);
-                alert('Failed to sign in. Please try again.');
-            });
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Bidder and PO Number Selector</title>
+    <style>
+        .images {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: space-around;
+            margin: 20px 0;
         }
-
-        // Load first dropdown from Analysis2!B7:B
-        function loadDropdown1() {
-            gapi.client.sheets.spreadsheets.values.get({
-                spreadsheetId: SPREADSHEET_ID,
-                range: 'Analysis2!B7:B'
-            }).then(response => {
-                const values = response.result.values || [];
-                const dropdown1 = document.getElementById('dropdown1');
-                values.forEach(value => {
-                    const option = document.createElement('option');
-                    option.value = value[0];
-                    option.text = value[0];
-                    dropdown1.appendChild(option);
-                });
-                dropdown1.addEventListener('change', loadDropdown2);
-            });
+        .image {
+            width: 45%;
+            height: auto;
+            margin: 5px;
         }
-
-        // Load second dropdown based on Flow and Flow 1
-        function loadDropdown2() {
-            const selected1 = document.getElementById('dropdown1').value;
-            const dropdown2 = document.getElementById('dropdown2');
-            dropdown2.innerHTML = '<option value="">Select an option</option>';
-
-            ['Flow', 'Flow 1'].forEach(sheet => {
-                gapi.client.sheets.spreadsheets.values.get({
-                    spreadsheetId: SPREADSHEET_ID,
-                    range: `${sheet}!A:L`
-                }).then(response => {
-                    const values = response.result.values || [];
-                    const filtered = values.filter(row => 
-                        row[11] === 'Closed' && row[6] === selected1
-                    ).map(row => row[3]); // D:D is index 3, L:L is 11, G:G is 6
-
-                    if (filtered.length > 0) {
-                        filtered.forEach(value => {
-                            const option = document.createElement('option');
-                            option.value = value;
-                            option.text = value;
-                            dropdown2.appendChild(option);
-                        });
-                    } else {
-                        const option = document.createElement('option');
-                        option.value = 'N/A';
-                        option.text = 'N/A';
-                        dropdown2.appendChild(option);
-                    }
-                });
-            });
-
-            dropdown2.addEventListener('change', updateResults);
+        @media (max-width: 768px) {
+            .image {
+                width: 90%;
+            }
         }
-
-        // Update results in 3rd and 4th rows
-        function updateResults() {
-            const selected2 = document.getElementById('dropdown2').value;
-            const resultBox = document.getElementById('resultBox');
-            const box4a = document.getElementById('box4a');
-            const box4b = document.getElementById('box4b');
-
-            // 3rd row: Filter Data!X:X where C:C matches selected2
-            gapi.client.sheets.spreadsheets.values.get({
-                spreadsheetId: SPREADSHEET_ID,
-                range: 'Data!A:X'
-            }).then(response => {
-                const values = response.result.values || [];
-                const filtered = values.find(row => row[2] === selected2); // C:C is index 2
-                resultBox.textContent = filtered ? filtered[23] : 'N/A'; // X:X is index 23
-
-                // 4th row, left box: Percentage from Analysis2!B:C
-                gapi.client.sheets.spreadsheets.values.get({
-                    spreadsheetId: SPREADSHEET_ID,
-                    range: 'Analysis2!B:C'
-                }).then(response => {
-                    const values = response.result.values || [];
-                    const match = values.find(row => row[0] === selected2);
-                    const percentage = match ? parseFloat(match[1]).toFixed(2) : 'N/A';
-                    box4a.textContent = percentage !== 'N/A' ? `${percentage}%` : 'N/A';
-
-                    // 4th row, right box: Text based on percentage
-                    if (percentage === '0.00') {
-                        box4b.textContent = '-- Won';
-                    } else if (percentage !== 'N/A') {
-                        box4b.textContent = 'higher than the lowest bid';
-                    } else {
-                        box4b.textContent = 'N/A';
-                    }
-                });
-            });
+        .form {
+            display: flex;
+            justify-content: space-between;
+            margin: 20px 0;
         }
-
-        loadGapi();
-    </script>
+        #bidder-id {
+            width: 100px;
+        }
+        #po-number {
+            width: 200px;
+        }
+        @media (max-width: 768px) {
+            .form {
+                flex-direction: column;
+            }
+            .form select {
+                margin-bottom: 10px;
+                width: 100%;
+            }
+        }
+        .shipmentDetail {
+            text-align: center;
+            border: 1px solid #ccc;
+            padding: 10px;
+            margin: 20px 0;
+        }
+        .result {
+            display: flex;
+            justify-content: space-between;
+            margin: 20px 0;
+        }
+        .percentage, .comment {
+            border: 1px solid #ccc;
+            padding: 10px;
+        }
+        .percentage {
+            width: 30%;
+        }
+        .comment {
+            width: 60%;
+        }
+        @media (max-width: 768px) {
+            .result {
+                flex-direction: column;
+            }
+            .percentage, .comment {
+                width: 100%;
+                margin-bottom: 10px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="images">
+        <img src="IRS.png" class="image" onload="resizeImage(this)">
+        <img src="IPCI.png" class="image" onload="resizeImage(this)">
+    </div>
+    <div class="form">
+        <select id="bidder-id">
+            <option value="">Select Bidder ID</option>
+        </select>
+        <select id="po-number">
+            <option value="">Select PO Number</option>
+        </select>
+    </div>
+    <div class="shipmentDetail">
+        <p id="shipmentDetailText">Shipment Detail: N/A</p>
+    </div>
+    <div class="result">
+        <div class="percentage">
+            <p id="percentageText">Percentage: N/A</p>
+        </div>
+        <div class="comment">
+            <p id="commentText">Comment: N/A</p>
+        </div>
+    </div>
+    <script src="https://apis.google.com/js/client.js?onload=googleClientLoaded"></script>
+    <script src="script.js"></script>
 </body>
 </html>
