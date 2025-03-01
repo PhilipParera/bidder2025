@@ -6,7 +6,7 @@ let dataX = [];
 function googleClientLoaded() {
     gapi.load('client', function() {
         gapi.client.init({
-            apiKey: 'YAIzaSyAOeuLYMYBkFeGyzI_mJQo1tFAjTf8UL9w',
+            apiKey: 'AIzaSyAOeuLYMYBkFeGyzI_mJQo1tFAjTf8UL9w',
             clientId: '664374659896-m0a5r65ev0kfldmaberdmb7nf6llucae.apps.googleusercontent.com',
             discoveryDocs: ['https://sheets.googleapis.com/$discovery/rest?version=v4'],
             scope: 'https://www.googleapis.com/auth/spreadsheets.readonly'
