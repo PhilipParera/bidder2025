@@ -9,6 +9,11 @@ function googleClientLoaded() {
             discoveryDocs: ['https://sheets.googleapis.com/$discovery/rest?version=v4'],
             scope: 'https://www.googleapis.com/auth/spreadsheets.readonly'
         }).then(function() {
+            console.log('Google API client initialized');
+            // Sign-in button event listener
+        }).catch(function(error) {
+            console.error('Error initializing Google API client:', error);
+        }).then(function() {
             document.getElementById('sign-in-button').addEventListener('click', function() {
                 gapi.auth2.getAuthInstance().signIn().then(function() {
                     fetchData();
