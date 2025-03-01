@@ -85,6 +85,8 @@ function updatePONumbers() {
 function updateResults() {
     const poNumber = document.getElementById('po-number').value;
     const bidderId = document.getElementById('bidder-id').value;
+    
+    // Check if selections are valid
     if (!poNumber || poNumber === 'N/A' || !bidderId) {
         document.getElementById('shipmentDetailText').textContent = 'Shipment Detail: N/A';
         document.getElementById('percentageText').textContent = 'Percentage: N/A';
@@ -92,10 +94,20 @@ function updateResults() {
         return;
     }
 
-    const shipmentRow = combinedData.find(row => row.poNumber === poNumber);
-    const shipmentDetail = shipmentRow ? shipmentRow.shipmentDetail : 'N/A';
+    // Find the row matching both poNumber and bidderId
+    const selectedRow = combinedData.find(row => row.poNumber === poNumber && row.bidderId === bidderId);
+    if (!selectedRow) {
+        document.getElementById('shipmentDetailText').textContent = 'Shipment Detail: N/A';
+        document.getElementById('percentageText').textContent = 'Percentage: N/A';
+        document.getElementById('commentText').textContent = 'Comment: N/A';
+        return;
+    }
+
+    // Use shipmentDetail from the selected row
+    const shipmentDetail = selectedRow.shipmentDetail || 'N/A';
     document.getElementById('shipmentDetailText').textContent = `Shipment Detail: ${shipmentDetail}`;
 
+    // Calculate offers for the selected poNumber across all bidders
     const offers = combinedData
         .filter(row => row.poNumber === poNumber)
         .map(row => parseFloat(row.validOffer))
@@ -107,14 +119,14 @@ function updateResults() {
     }
 
     const minOffer = Math.min(...offers);
-    const selectedRow = combinedData.find(row => row.poNumber === poNumber && row.bidderId === bidderId);
-    if (!selectedRow || isNaN(parseFloat(selectedRow.validOffer))) {
+    const selectedOffer = parseFloat(selectedRow.validOffer);
+    if (isNaN(selectedOffer)) {
         document.getElementById('percentageText').textContent = 'Percentage: N/A';
         document.getElementById('commentText').textContent = 'Comment: N/A';
         return;
     }
 
-    const selectedOffer = parseFloat(selectedRow.validOffer);
+    // Calculate and display percentage
     let percentage = selectedOffer === minOffer ? 0 : ((selectedOffer - minOffer) / minOffer) * 100;
     percentage = Math.round(percentage * 100) / 100;
     document.getElementById('percentageText').textContent = `Percentage: ${percentage.toFixed(2)}%`;
