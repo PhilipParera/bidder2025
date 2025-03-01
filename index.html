@@ -1,157 +1,97 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Bidder and PO Number Selector</title>
-    <style>
-        /* Set Calibri as the font for all elements */
-        body {
-            font-family: 'Calibri', sans-serif;
-        }
+<style>
+    /* Set Calibri as the font for all elements and remove default margins */
+    body {
+        font-family: 'Calibri', sans-serif;
+        margin: 10;
+    }
 
-        /* Styling for the images section */
-        .images {
-            display: flex;
-            flex-wrap: wrap;
-            justify-content: space-around;
-            margin: 20px 0;
-        }
+    /* Styling for the images section */
+    .images {
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: space-between;
+        margin: 20px 0;
+    }
+    .image {
+        width: auto;
+        height: auto;
+        margin: 5px;
+    }
+    @media (max-width: 768px) {
         .image {
-            width: 45%;
-            height: auto;
-            margin: 5px;
+            width: 100%;
         }
-        @media (max-width: 120px) {
-            .image {
-                width: 45%;
-            }
-        }
+    }
 
-        /* Title styling */
-        .title {
-            text-align: center;
-            margin: 2em 0; /* Adds space above and below the title */
-        }
-        .title h1 {
-            font-size: 1.5em; /* Larger font size, adjustable via relative units */
-        }
+    /* Title styling */
+    .title {
+        text-align: center;
+        margin: 2em 0;
+    }
+    .title h1 {
+        font-size: 1.5em;
+    }
 
-        /* Form (dropdowns) styling */
+    /* Form (dropdowns) styling */
+    .form {
+        display: flex;
+        justify-content: space-between;
+        margin: 20px 0;
+    }
+    #bidder-id {
+        width: 100px;
+    }
+    #po-number {
+        width: 200px;
+    }
+    @media (max-width: 768px) {
         .form {
-            display: flex;
-            justify-content: space-between;
-            margin: 20px 0;
+            flex-direction: column;
         }
-        #bidder-id {
-            width: 100px;
+        .form select {
+            margin-bottom: 10px;
+            width: 100%;
         }
-        #po-number {
-            width: 200px;
-        }
-        @media (max-width: 120px) {
-            .form {
-                flex-direction: column;
-            }
-            .form select {
-                margin-bottom: 10px;
-                width: 50%;
-            }
-        }
+    }
 
-        /* Shipment detail styling */
-        .shipmentDetail {
-            text-align: center;
-            border: 1px solid #ccc;
-            padding: 10px;
-            margin: 20px 0;
-        }
+    /* Shipment detail styling */
+    .shipmentDetail {
+        text-align: center;
+        border: 1px solid #ccc;
+        padding: 10px;
+        margin: 20px 0;
+    }
 
-        /* Result section styling */
+    /* Result section styling */
+    .result {
+        display: flex;
+        justify-content: space-between;
+        margin: 20px 0;
+    }
+    .percentage, .comment {
+        border: 1px solid #ccc;
+        padding: 10px;
+    }
+    .percentage {
+        width: 30%;
+    }
+    .comment {
+        width: 60%;
+    }
+    @media (max-width: 768px) {
         .result {
-            display: flex;
-            justify-content: space-between;
-            margin: 20px 0;
+            flex-direction: column;
         }
         .percentage, .comment {
-            border: 1px solid #ccc;
-            padding: 10px;
+            width: 100%;
+            margin-bottom: 10px;
         }
-        .percentage {
-            width: 30%;
-        }
-        .comment {
-            width: 60%;
-        }
-        @media (max-width: 120px) {
-            .result {
-                flex-direction: column;
-            }
-            .percentage, .comment {
-                width: 50%;
-                margin-bottom: 10px;
-            }
-        }
+    }
 
-        /* Note section styling */
-        .note {
-            text-align: left;
-            font-size: 0.8em; /* Smaller font size */
-            margin-top: 2em; /* Adds space equivalent to approximately 3 lines above the note */
-        }
-    </style>
-</head>
-<body>
-    <!-- Top images -->
-    <div class="images">
-        <img src="IRS.png" class="image" onload="resizeImage(this)">
-        <img src="IPCI.png" class="image" onload="resizeImage(this)">
-    </div>
-
-    <!-- Title section -->
-    <div class="title">
-        <h1>Bidder's Self-evaluation Tool</h1>
-    </div>
-
-    <!-- Dropdowns section -->
-    <div class="form">
-        <select id="bidder-id">
-            <option value="">Select Bidder ID</option>
-        </select>
-        <select id="po-number">
-            <option value="">Select PO Number</option>
-        </select>
-    </div>
-
-    <!-- Shipment detail section -->
-    <div class="shipmentDetail">
-        <p id="shipmentDetailText">Shipment Detail: N/A</p>
-    </div>
-
-    <!-- Result section -->
-    <div class="result">
-        <div class="percentage">
-            <p id="percentageText">Percentage: N/A</p>
-        </div>
-        <div class="comment">
-            <p id="commentText">Comment: N/A</p>
-        </div>
-    </div>
-
-    <!-- Note section -->
-    <div class="note">
-        <p>Notes:<br>
-        This is an experimental tool which is made for the e-bidding platform run by PT IRS and PT IPCI.<br>
-        Use it at your own risk as the tool is not officially supported by PT IRS and PT IPCI.<br>
-        The availability of PO Number depends on the Bidder's ID and its 'Closed' status.<br>
-        This tool might be able to support the bidder to analyze how much amount percentage between bidder's final bid against the amount of winning bid.<br>
-        For any enquiry or feedback, it could be sent to julius.timotius@indorama.com and/or via WhatsApp +6287808661776.<br>
-        All rights reserved.<br>
-        © March 2025</p>
-    </div>
-
-    <!-- External scripts -->
-    <script src="https://apis.google.com/js/client.js?onload=googleClientLoaded"></script>
-    <script src="script.js"></script>
-</body>
-</html>
+    /* Note section styling */
+    .note {
+        text-align: left;
+        font-size: 0.8em;
+        margin-top: 2em;
+    }
+</style>
