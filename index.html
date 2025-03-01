@@ -1,4 +1,10 @@
-<style>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Bidder and PO Number Selector</title>
+    <style>
     body {
         font-family: 'Calibri', sans-serif;
     }
@@ -93,60 +99,60 @@
 </style>
 </head>
 <body>
-    <div class="container">
-        <!-- Top images -->
-        <div class="images">
-            <img src="IRS.png" class="image" onload="resizeImage(this)">
-            <img src="IPCI.png" class="image" onload="resizeImage(this)">
-        </div>
+    <div class="container">
+        <!-- Top images -->
+        <div class="images">
+            <img src="IRS.png" class="image" onload="resizeImage(this)">
+            <img src="IPCI.png" class="image" onload="resizeImage(this)">
+        </div>
 
-        <!-- Title section -->
-        <div class="title">
-            <h1>Bidder's Self-evaluation Tool</h1>
-        </div>
+        <!-- Title section -->
+        <div class="title">
+            <h1>Bidder's Self-evaluation Tool</h1>
+        </div>
 
-        <!-- Dropdowns section -->
-        <div class="form">
-            <select id="bidder-id">
-                <option value="">Select Bidder ID</option>
-            </select>
-            <select id="po-number">
-                <option value="">Select PO Number</option>
-            </select>
-        </div>
+        <!-- Dropdowns section -->
+        <div class="form">
+            <select id="bidder-id">
+                <option value="">Select Bidder ID</option>
+            </select>
+            <select id="po-number">
+                <option value="">Select PO Number</option>
+            </select>
+        </div>
 
-        <!-- Shipment detail section -->
-        <div class="shipmentDetail">
-            <p id="shipmentDetailText">Shipment Detail: N/A</p>
-        </div>
+        <!-- Shipment detail section -->
+        <div class="shipmentDetail">
+            <p id="shipmentDetailText">Shipment Detail: N/A</p>
+        </div>
 
-        <!-- Result section -->
-        <div class="result">
-            <div class="percentage">
-                <p id="percentageText">Percentage: N/A</p>
-            </div>
-            <div class="comment">
-                <p id="commentText">Comment: N/A</p>
-            </div>
-        </div>
+        <!-- Result section -->
+        <div class="result">
+            <div class="percentage">
+                <p id="percentageText">Percentage: N/A</p>
+            </div>
+            <div class="comment">
+                <p id="commentText">Comment: N/A</p>
+            </div>
+        </div>
 
-        <!-- Note section -->
-        <div class="note">
-            <p>Notes:<br>
-            This is an experimental tool which is made for the e-bidding platform run by PT IRS and PT IPCI.<br>
-            Use it at your own risk as the tool is not officially supported by PT IRS and PT IPCI.<br>
-            The availability of PO Number depends on the Bidder's ID and its 'Closed' status.<br>
-            This tool might be able to support the bidder to analyze how much amount percentage between bidder's final bid against the amount of winning bid.<br>
-            For any enquiry or feedback, it could be sent via email to julius.timotius@indorama.com and/or via WhatsApp +6287808661776.<br>
-            All rights reserved.<br>
-            © March 2025</p>
-        </div>
-    </div>
+        <!-- Note section -->
+        <div class="note">
+            <p>Notes:<br>
+            This is an experimental tool which is made for the e-bidding platform run by PT IRS and PT IPCI.<br>
+            Use it at your own risk as the tool is not officially supported by PT IRS and PT IPCI.<br>
+            The availability of PO Number depends on the Bidder's ID and its 'Closed' status.<br>
+            This tool might be able to support the bidder to analyze how much amount percentage between bidder's final bid against the amount of winning bid.<br>
+            For any enquiry or feedback, it could be sent via email to julius.timotius@indorama.com and/or via WhatsApp +6287808661776.<br>
+            All rights reserved.<br>
+            © March 2025</p>
+        </div>
+    </div>
 
-    <!-- External scripts -->
-    <script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script>
-    <script src="https://apis.google.com/js/client.js?onload=googleClientLoaded"></script>
-    <script src="script.js"></script>
-    <script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'91960bb4082abcdf',t:'MTc0MDgwNDc1NC4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script>
-</body>
+    <!-- External scripts -->
+    <script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script>
+    <script src="https://apis.google.com/js/client.js?onload=googleClientLoaded"></script>
+    <script src="script.js"></script>
+    <script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'91960bb4082abcdf',t:'MTc0MDgwNDc1NC4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script>
+<script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'91962ee05d794ab2',t:'MTc0MDgwNjE5NS4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script></body>
 </html>
