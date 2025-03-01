@@ -1,0 +1,12 @@
+fetch('/.netlify/functions/get-sheet-data')
+  .then(response => response.json())
+  .then(data => {
+    const dropdown = document.getElementById('myDropdown');
+    data.forEach(item => {
+      const option = document.createElement('option');
+      option.value = item[0]; // First column of the range
+      option.text = item[0];
+      dropdown.appendChild(option);
+    });
+  })
+  .catch(error => console.error('Error:', error));
