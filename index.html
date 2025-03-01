@@ -1,97 +1,157 @@
-<style>
-    /* Set Calibri as the font for all elements and remove default margins */
-    body {
-        font-family: 'Calibri', sans-serif;
-        margin: 0;
-    }
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Bidder and PO Number Selector</title>
+    <style>
+        /* Set Calibri as the font for all elements */
+        body {
+            font-family: 'Calibri', sans-serif;
+        }
 
-    /* Styling for the images section */
-    .images {
-        display: flex;
-        flex-wrap: wrap;
-        justify-content: space-between;
-        margin: 20px 0;
-    }
-    .image {
-        width: auto;
-        height: auto;
-        margin: 5px;
-    }
-    @media (max-width: 768px) {
+        /* Styling for the images section */
+        .images {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: space-around;
+            margin: 20px 0;
+        }
         .image {
-            width: 100%;
+            width: 45%;
+            height: auto;
+            margin: 5px;
         }
-    }
+        @media (max-width: 120px) {
+            .image {
+                width: 45%;
+            }
+        }
 
-    /* Title styling */
-    .title {
-        text-align: center;
-        margin: 2em 0;
-    }
-    .title h1 {
-        font-size: 1.5em;
-    }
+        /* Title styling */
+        .title {
+            text-align: center;
+            margin: 2em 0; /* Adds space above and below the title */
+        }
+        .title h1 {
+            font-size: 1.5em; /* Larger font size, adjustable via relative units */
+        }
 
-    /* Form (dropdowns) styling */
-    .form {
-        display: flex;
-        justify-content: space-between;
-        margin: 20px 0;
-    }
-    #bidder-id {
-        width: 100px;
-    }
-    #po-number {
-        width: 200px;
-    }
-    @media (max-width: 768px) {
+        /* Form (dropdowns) styling */
         .form {
-            flex-direction: column;
+            display: flex;
+            justify-content: space-between;
+            margin: 20px 0;
         }
-        .form select {
-            margin-bottom: 10px;
-            width: 100%;
+        #bidder-id {
+            width: 100px;
         }
-    }
+        #po-number {
+            width: 200px;
+        }
+        @media (max-width: 120px) {
+            .form {
+                flex-direction: column;
+            }
+            .form select {
+                margin-bottom: 10px;
+                width: 50%;
+            }
+        }
 
-    /* Shipment detail styling */
-    .shipmentDetail {
-        text-align: center;
-        border: 1px solid #ccc;
-        padding: 10px;
-        margin: 20px 0;
-    }
+        /* Shipment detail styling */
+        .shipmentDetail {
+            text-align: center;
+            border: 1px solid #ccc;
+            padding: 10px;
+            margin: 20px 0;
+        }
 
-    /* Result section styling */
-    .result {
-        display: flex;
-        justify-content: space-between;
-        margin: 20px 0;
-    }
-    .percentage, .comment {
-        border: 1px solid #ccc;
-        padding: 10px;
-    }
-    .percentage {
-        width: 30%;
-    }
-    .comment {
-        width: 60%;
-    }
-    @media (max-width: 768px) {
+        /* Result section styling */
         .result {
-            flex-direction: column;
+            display: flex;
+            justify-content: space-between;
+            margin: 20px 0;
         }
         .percentage, .comment {
-            width: 100%;
-            margin-bottom: 10px;
+            border: 1px solid #ccc;
+            padding: 10px;
         }
-    }
+        .percentage {
+            width: 30%;
+        }
+        .comment {
+            width: 60%;
+        }
+        @media (max-width: 120px) {
+            .result {
+                flex-direction: column;
+            }
+            .percentage, .comment {
+                width: 50%;
+                margin-bottom: 10px;
+            }
+        }
 
-    /* Note section styling */
-    .note {
-        text-align: left;
-        font-size: 0.8em;
-        margin-top: 2em;
-    }
-</style>
+        /* Note section styling */
+        .note {
+            text-align: left;
+            font-size: 0.8em; /* Smaller font size */
+            margin-top: 2em; /* Adds space equivalent to approximately 3 lines above the note */
+        }
+    </style>
+</head>
+<body>
+    <!-- Top images -->
+    <div class="images">
+        <img src="IRS.png" class="image" onload="resizeImage(this)">
+        <img src="IPCI.png" class="image" onload="resizeImage(this)">
+    </div>
+
+    <!-- Title section -->
+    <div class="title">
+        <h1>Bidder's Self-evaluation Tool</h1>
+    </div>
+
+    <!-- Dropdowns section -->
+    <div class="form">
+        <select id="bidder-id">
+            <option value="">Select Bidder ID</option>
+        </select>
+        <select id="po-number">
+            <option value="">Select PO Number</option>
+        </select>
+    </div>
+
+    <!-- Shipment detail section -->
+    <div class="shipmentDetail">
+        <p id="shipmentDetailText">Shipment Detail: N/A</p>
+    </div>
+
+    <!-- Result section -->
+    <div class="result">
+        <div class="percentage">
+            <p id="percentageText">Percentage: N/A</p>
+        </div>
+        <div class="comment">
+            <p id="commentText">Comment: N/A</p>
+        </div>
+    </div>
+
+    <!-- Note section -->
+    <div class="note">
+        <p>Notes:<br>
+        This is an experimental tool which is made for the e-bidding platform run by PT IRS and PT IPCI.<br>
+        Use it at your own risk as the tool is not officially supported by PT IRS and PT IPCI.<br>
+        The availability of PO Number depends on the Bidder's ID and its 'Closed' status.<br>
+        This tool might be able to support the bidder to analyze how much amount percentage between bidder's final bid against the amount of winning bid.<br>
+        For any enquiry or feedback, it could be sent to <a href="/cdn-cgi/l/email-protection" class="__cf_email__" data-cfemail="0f657a63667a7c217b6662607b667a7c4f66616b607d6e626e216c6062">[email&#160;protected]</a> and/or via WhatsApp +6287808661776.<br>
+        All rights reserved.<br>
+        © March 2025</p>
+    </div>
+
+    <!-- External scripts -->
+    <script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script src="https://apis.google.com/js/client.js?onload=googleClientLoaded"></script>
+    <script src="script.js"></script>
+<script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'919606453f4cee13',t:'MTc0MDgwNDUzMi4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script></body>
+</html>
