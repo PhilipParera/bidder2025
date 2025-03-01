@@ -119,7 +119,7 @@ function updateResults() {
 
 document.addEventListener('DOMContentLoaded', function() {
     const emailLink = document.getElementById('email-link');
-    const email = 'feedback@example.com'; // Replace with your actual email
+    const email = 'julius.timotius@indorama.com';
     emailLink.href = 'mailto:' + email;
     emailLink.textContent = email;
 });
