@@ -9,11 +9,13 @@ function googleClientLoaded() {
             discoveryDocs: ['https://sheets.googleapis.com/$discovery/rest?version=v4'],
             scope: 'https://www.googleapis.com/auth/spreadsheets.readonly'
         }).then(function() {
-            gapi.auth2.getAuthInstance().signIn().then(function() {
-                fetchData();
-            }, function(error) {
-                console.error('Sign-in error:', error);
-                alert('Failed to sign in. Please try again.');
+            document.getElementById('sign-in-button').addEventListener('click', function() {
+                gapi.auth2.getAuthInstance().signIn().then(function() {
+                    fetchData();
+                }, function(error) {
+                    console.error('Sign-in error:', error);
+                    alert('Failed to sign in. Please try again.');
+                });
             });
         });
     });
@@ -30,7 +32,6 @@ function fetchData() {
         const batchResponse = response.result.valueRanges;
         const evaluationData = batchResponse[0].values ? batchResponse[0].values : [];
 
-        // Assuming the first row contains headers, skip it
         combinedData = evaluationData.slice(1).map(row => ({
             poNumber: row[0] || '',
             bidderId: row[1] || '',
@@ -38,17 +39,8 @@ function fetchData() {
             shipmentDetail: row[3] || ''
         }));
 
-        // Extract unique bidder IDs from Evaluation!D:D
         bidderIds = [...new Set(combinedData.map(row => row.bidderId))].filter(id => id !== '');
         populateDropdown('bidder-id', bidderIds, 'Select Bidder ID');
-
-        // Add event listeners for dropdown changes
-        document.getElementById('bidder-id').addEventListener('change', function() {
-            updatePONumbers();
-        });
-        document.getElementById('po-number').addEventListener('change', function() {
-            updateResults();
-        });
     }, function(error) {
         console.error('Error fetching data:', error);
         alert('Failed to fetch data from Google Sheet. Please try again.');
@@ -78,7 +70,6 @@ function updatePONumbers() {
         return;
     }
 
-    // Get unique PO Numbers for the selected Bidder ID from Evaluation!C:C
     const poNumbers = [...new Set(combinedData
         .filter(row => row.bidderId === bidderId)
         .map(row => row.poNumber))].filter(po => po !== '');
@@ -96,12 +87,10 @@ function updateResults() {
         return;
     }
 
-    // Update Shipment Detail from Evaluation!F:F
     const shipmentRow = combinedData.find(row => row.poNumber === poNumber);
     const shipmentDetail = shipmentRow ? shipmentRow.shipmentDetail : 'N/A';
     document.getElementById('shipmentDetailText').textContent = `Shipment Detail: ${shipmentDetail}`;
 
-    // Calculate Percentage using Valid Offers from Evaluation!E:E
     const offers = combinedData
         .filter(row => row.poNumber === poNumber)
         .map(row => parseFloat(row.validOffer))
@@ -122,8 +111,18 @@ function updateResults() {
 
     const selectedOffer = parseFloat(selectedRow.validOffer);
     let percentage = selectedOffer === minOffer ? 0 : ((selectedOffer - minOffer) / minOffer) * 100;
-    percentage = Math.round(percentage * 100) / 100; // Round to 2 decimal places
+    percentage = Math.round(percentage * 100) / 100;
     document.getElementById('percentageText').textContent = `Percentage: ${percentage.toFixed(2)}%`;
     document.getElementById('commentText').textContent = 
         percentage === 0 ? 'Comment: -- Won' : 'Comment: higher than the lowest bid';
 }
+
+document.addEventListener('DOMContentLoaded', function() {
+    const emailLink = document.getElementById('email-link');
+    const email = 'feedback@example.com'; // Replace with your actual email
+    emailLink.href = 'mailto:' + email;
+    emailLink.textContent = email;
+});
+
+document.getElementById('bidder-id').addEventListener('change', updatePONumbers);
+document.getElementById('po-number').addEventListener('change', updateResults);

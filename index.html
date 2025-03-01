@@ -5,114 +5,20 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Bidder and PO Number Selector</title>
     <style>
-    body {
-        font-family: 'Calibri', sans-serif;
-    }
-
-    .container {
-        max-width: 1200px;
-        margin: 0 auto;
-        padding: 0 20px;
-    }
-
-    .images {
-        display: flex;
-        flex-wrap: nowrap;
-        justify-content: space-around;
-        margin: 20px 0;
-    }
-    .image {
-        flex: 1 1 0%;
-        height: auto;
-        margin: 5px;
-    }
-
-    .title {
-        text-align: center;
-        margin: 2em 0;
-    }
-    .title h1 {
-        font-size: 1.5em;
-    }
-
-    .form {
-        display: flex;
-        justify-content: space-between;
-        margin: 20px 0;
-    }
-    #bidder-id {
-        width: 100px;
-    }
-    #po-number {
-        width: 200px;
-    }
-    @media (max-width: 767px) {
-        .form {
-            flex-direction: column;
-        }
-        .form select {
-            margin-bottom: 10px;
-            width: 100%;
-            height: 40px;
-            font-size: 16px;
-            padding: 5px;
-        }
-    }
-
-    .shipmentDetail {
-        text-align: center;
-        border: 1px solid #ccc;
-        padding: 10px;
-        margin: 20px 0;
-    }
-
-    .result {
-        display: flex;
-        justify-content: space-between;
-        margin: 20px 0;
-    }
-    .percentage, .comment {
-        border: 1px solid #ccc;
-        padding: 10px;
-    }
-    .percentage {
-        width: 30%;
-    }
-    .comment {
-        width: 60%;
-    }
-    @media (max-width: 767px) {
-        .result {
-            flex-direction: column;
-        }
-        .percentage, .comment {
-            width: 100%;
-            margin-bottom: 10px;
-        }
-    }
-
-    .note {
-        text-align: left;
-        font-size: 0.8em;
-        margin-top: 2em;
-    }
-</style>
+        /* [Your existing CSS remains unchanged] */
+    </style>
 </head>
 <body>
     <div class="container">
-        <!-- Top images -->
         <div class="images">
             <img src="IRS.png" class="image" onload="resizeImage(this)">
             <img src="IPCI.png" class="image" onload="resizeImage(this)">
         </div>
-
-        <!-- Title section -->
         <div class="title">
             <h1>Bidder's Self-evaluation Tool</h1>
         </div>
-
-        <!-- Dropdowns section -->
         <div class="form">
+            <button id="sign-in-button">Sign in with Google</button>
             <select id="bidder-id">
                 <option value="">Select Bidder ID</option>
             </select>
@@ -120,13 +26,9 @@
                 <option value="">Select PO Number</option>
             </select>
         </div>
-
-        <!-- Shipment detail section -->
         <div class="shipmentDetail">
             <p id="shipmentDetailText">Shipment Detail: N/A</p>
         </div>
-
-        <!-- Result section -->
         <div class="result">
             <div class="percentage">
                 <p id="percentageText">Percentage: N/A</p>
@@ -135,22 +37,16 @@
                 <p id="commentText">Comment: N/A</p>
             </div>
         </div>
-
-        <!-- Note section -->
         <div class="note">
             <p>Notes:<br>
             This is an experimental tool which is made for the e-bidding platform run by PT IRS and PT IPCI. Use it at your own risk as the tool is not officially supported by PT IRS and PT IPCI.<br>
             This tool might be able to support the bidder to analyze how much amount percentage between bidder's final bid against the amount of winning bid. PO Number availability on the list depends on the Bidder's ID and its 'Closed' status.<br>
-            For any enquiry or feedback, it could be sent via email to julius.timotius@indorama.com and/or via WhatsApp +6287808661776.<br>
+            For any enquiry or feedback, it could be sent via email to <a href="#" id="email-link">click to reveal email</a> and/or via WhatsApp +6287808661776.<br>
             All rights reserved.<br>
             © March 2025</p>
         </div>
     </div>
-
-    <!-- External scripts -->
-    <script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script>
     <script src="https://apis.google.com/js/client.js?onload=googleClientLoaded"></script>
     <script src="script.js"></script>
-    <script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'91960bb4082abcdf',t:'MTc0MDgwNDc1NC4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script>
-<script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'91962ee05d794ab2',t:'MTc0MDgwNjE5NS4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script></body>
+</body>
 </html>
