@@ -5,23 +5,13 @@ function googleClientLoaded() {
     gapi.load('client', function() {
         gapi.client.init({
             apiKey: 'AIzaSyAOeuLYMYBkFeGyzI_mJQo1tFAjTf8UL9w',
-            clientId: '664374659896-m0a5r65ev0kfldmaberdmb7nf6llucae.apps.googleusercontent.com',
-            discoveryDocs: ['https://sheets.googleapis.com/$discovery/rest?version=v4'],
-            scope: 'https://www.googleapis.com/auth/spreadsheets.readonly'
+            discoveryDocs: ['https://sheets.googleapis.com/$discovery/rest?version=v4']
         }).then(function() {
             console.log('Google API client initialized');
-            // Sign-in button event listener
+            fetchData();
         }).catch(function(error) {
             console.error('Error initializing Google API client:', error);
-        }).then(function() {
-            document.getElementById('sign-in-button').addEventListener('click', function() {
-                gapi.auth2.getAuthInstance().signIn().then(function() {
-                    fetchData();
-                }, function(error) {
-                    console.error('Sign-in error:', error);
-                    alert('Failed to sign in. Please try again.');
-                });
-            });
+            alert('Failed to initialize Google API client. Please check the console for details.');
         });
     });
 }
